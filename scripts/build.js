@@ -39,7 +39,6 @@ const isInteractive = process.stdout.isTTY;
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
-  console.log('====checkRequiredFiles error======')
   process.exit(1);
 }
 
@@ -65,7 +64,7 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appBuild);
+    fs.emptyDirSync(paths.appBuild + '/' + BUILD_PROJECT);
     // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build
