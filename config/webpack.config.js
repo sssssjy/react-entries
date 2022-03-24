@@ -120,7 +120,10 @@ module.exports = function (webpackEnv) {
       },
       {
         loader: require.resolve('css-loader'),
-        options: cssOptions,
+        options: {
+          ...cssOptions,
+          sourceMap: isEnvDevelopment, //生产关闭source-map
+        },
       },
       {
         // Options for PostCSS as we reference these options twice
@@ -195,7 +198,7 @@ module.exports = function (webpackEnv) {
     bail: isEnvProduction,
     devtool: isEnvProduction
       ? shouldUseSourceMap
-        ? 'source-map'
+        ? 'inline-cheap-module-source-map'
         : false
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
@@ -287,6 +290,7 @@ module.exports = function (webpackEnv) {
               ascii_only: true,
             },
           },
+          extractComments: false, //注释不单独生成文件
         }),
         // This is only used in production mode
         new CssMinimizerPlugin(),
@@ -577,7 +581,7 @@ module.exports = function (webpackEnv) {
             ? {
                 minify: {
                   removeComments: true,
-                  collapseWhitespace: false, //去除空格与回车
+                  collapseWhitespace: true, //去除空格与回车
                   removeRedundantAttributes: true,
                   useShortDoctype: true,
                   removeEmptyAttributes: true,
@@ -636,24 +640,24 @@ module.exports = function (webpackEnv) {
       //   `index.html`
       // - "entrypoints" key: Array of files which are included in `index.html`,
       //   can be used to reconstruct the HTML if necessary
-      new WebpackManifestPlugin({
-        fileName: 'asset-manifest.json',
-        publicPath: paths.publicUrlOrPath,
-        generate: (seed, files, entrypoints) => {
-          const manifestFiles = files.reduce((manifest, file) => {
-            manifest[file.name] = file.path;
-            return manifest;
-          }, seed);
-          const entrypointFiles = entrypoints.main.filter(
-            fileName => !fileName.endsWith('.map')
-          );
-
-          return {
-            files: manifestFiles,
-            entrypoints: entrypointFiles,
-          };
-        },
-      }),
+      // new WebpackManifestPlugin({
+      //   fileName: 'asset-manifest.json',
+      //   publicPath: paths.publicUrlOrPath,
+      //   generate: (seed, files, entrypoints) => {
+      //     const manifestFiles = files.reduce((manifest, file) => {
+      //       manifest[file.name] = file.path;
+      //       return manifest;
+      //     }, seed);
+      //     const entrypointFiles = entrypoints.main.filter(
+      //       fileName => !fileName.endsWith('.map')
+      //     );
+      //
+      //     return {
+      //       files: manifestFiles,
+      //       entrypoints: entrypointFiles,
+      //     };
+      //   },
+      // }),
       // Moment.js is an extremely popular library that bundles large locale files
       // by default due to how webpack interprets its code. This is a practical
       // solution that requires the user to opt into importing specific locales.
@@ -665,17 +669,18 @@ module.exports = function (webpackEnv) {
       }),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
-      isEnvProduction &&
-        fs.existsSync(swSrc) &&
-        new WorkboxWebpackPlugin.InjectManifest({
-          swSrc,
-          dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-          exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
-          // Bump up the default maximum size (2mb) that's precached,
-          // to make lazy-loading failure scenarios less likely.
-          // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
-          maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
-        }),
+        //wpa需要
+      // isEnvProduction &&
+      //   fs.existsSync(swSrc) &&
+      //   new WorkboxWebpackPlugin.InjectManifest({
+      //     swSrc,
+      //     dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
+      //     exclude: [/\.map$/, /asset-manifest\.json$/, /LICENSE/],
+      //     // Bump up the default maximum size (2mb) that's precached,
+      //     // to make lazy-loading failure scenarios less likely.
+      //     // See https://github.com/cra-template/pwa/issues/13#issuecomment-722667270
+      //     maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
+      //   }),
       // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({
