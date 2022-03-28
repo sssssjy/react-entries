@@ -198,7 +198,7 @@ module.exports = function (webpackEnv) {
     if (isEnvDevelopment) {
       const buildList = !argv.length ? paths.allPackageList : argv;
       buildList.forEach(packageName => {
-        entry[packageName] = `./src/pages/${packageName}/index`;
+        entry[packageName] = path.resolve(__dirname,`../src/pages/${packageName}/index`);
         const plugin = new HtmlWebpackPlugin(
             Object.assign(
                 {},
@@ -256,6 +256,7 @@ module.exports = function (webpackEnv) {
   };
 
   const entryConfig = getEntry();
+  console.log(entryConfig.entry)
 
   return {
     target: ['browserslist'],
@@ -293,7 +294,7 @@ module.exports = function (webpackEnv) {
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // publicPath: paths.publicUrlOrPath,
-      publicPath: '../',
+      publicPath: isEnvDevelopment ? '/': '../',
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? info =>
