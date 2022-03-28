@@ -1,5 +1,6 @@
 import React from "react";
 import './index.scss'
+import {} from 'react-router-dom'
 
 const Page1 = () => {
     document.title = 'page1 product'
