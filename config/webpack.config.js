@@ -191,6 +191,72 @@ module.exports = function (webpackEnv) {
     return loaders;
   };
 
+  const getEntry = () => {
+    const entry = {};
+    const plugins = [];
+    const argv = process.argv.slice(2);
+    if (isEnvDevelopment) {
+      const buildList = !argv.length ? paths.allPackageList : argv;
+      buildList.forEach(packageName => {
+        entry[packageName] = `./src/pages/${packageName}/index`;
+        const plugin = new HtmlWebpackPlugin(
+            Object.assign(
+                {},
+                {
+                  inject: true,
+                  template: paths.appHtml,
+                  filename: `${packageName}/index.html`,
+                  chunks: [packageName]
+                }
+            )
+        );
+        plugins.push(plugin);
+      });
+      return {
+        entry,
+        plugins
+      }
+    } else if (isEnvProduction) {
+      //生产环境 通过release 必定有 BUILD_PROJECT
+      const plugin = new HtmlWebpackPlugin(
+          Object.assign(
+              {},
+              {
+                inject: true,
+                template: paths.appHtml,
+                filename: `${BUILD_PROJECT}/index.html`,
+                chunks: [BUILD_PROJECT]
+              },
+              isEnvProduction
+                  ? {
+                    minify: {
+                      removeComments: true,
+                      collapseWhitespace: true, //去除空格与回车
+                      removeRedundantAttributes: true,
+                      useShortDoctype: true,
+                      removeEmptyAttributes: true,
+                      removeStyleLinkTypeAttributes: true,
+                      keepClosingSlash: true,
+                      minifyJS: true,
+                      minifyCSS: true,
+                      minifyURLs: true,
+                    },
+                  }
+                  : undefined
+          )
+      )
+
+      return {
+        entry:{
+          [BUILD_PROJECT]: paths.appIndexJs
+        },
+        plugins: [plugin]
+      }
+    }
+  };
+
+  const entryConfig = getEntry();
+
   return {
     target: ['browserslist'],
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
@@ -203,7 +269,8 @@ module.exports = function (webpackEnv) {
       : isEnvDevelopment && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
-    entry: paths.appIndexJs,
+    entry: entryConfig.entry,
+    // entry: paths.appIndexJs,
     output: {
       // The build folder.
       path: paths.appBuild,
@@ -218,11 +285,15 @@ module.exports = function (webpackEnv) {
       chunkFilename: isEnvProduction
         ? `${BUILD_PROJECT}/static/js/[name].[contenthash:8].chunk.js`
         : isEnvDevelopment && 'static/js/[name].chunk.js',
-      assetModuleFilename: `${BUILD_PROJECT}/static/media/[name].[hash][ext]`,
+      assetModuleFilename: isEnvProduction
+          ? `${BUILD_PROJECT}/static/media/[name].[hash][ext]`
+          : isEnvDevelopment && 'static/media/[name].[hash][ext]',
+      // assetModuleFilename: `${BUILD_PROJECT}/static/media/[name].[hash][ext]`,
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: paths.publicUrlOrPath,
+      // publicPath: paths.publicUrlOrPath,
+      publicPath: '../',
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? info =>
@@ -398,7 +469,7 @@ module.exports = function (webpackEnv) {
                 {
                   loader: require.resolve('file-loader'),
                   options: {
-                    name: `${BUILD_PROJECT}/static/media/[name].[hash].[ext]`,
+                    name: `static/media/[name].[hash].[ext]`,
                   },
                 },
               ],
@@ -569,38 +640,39 @@ module.exports = function (webpackEnv) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin(
-        Object.assign(
-          {},
-          {
-            inject: true,
-            template: paths.appHtml,
-            filename: `${BUILD_PROJECT}/index.html`
-          },
-          isEnvProduction
-            ? {
-                minify: {
-                  removeComments: true,
-                  collapseWhitespace: true, //去除空格与回车
-                  removeRedundantAttributes: true,
-                  useShortDoctype: true,
-                  removeEmptyAttributes: true,
-                  removeStyleLinkTypeAttributes: true,
-                  keepClosingSlash: true,
-                  minifyJS: true,
-                  minifyCSS: true,
-                  minifyURLs: true,
-                },
-              }
-            : undefined
-        )
-      ),
+      // new HtmlWebpackPlugin(
+      //   Object.assign(
+      //     {},
+      //     {
+      //       inject: true,
+      //       template: paths.appHtml,
+      //       filename: `${BUILD_PROJECT}/index.html`
+      //     },
+      //     isEnvProduction
+      //       ? {
+      //           minify: {
+      //             removeComments: true,
+      //             collapseWhitespace: true, //去除空格与回车
+      //             removeRedundantAttributes: true,
+      //             useShortDoctype: true,
+      //             removeEmptyAttributes: true,
+      //             removeStyleLinkTypeAttributes: true,
+      //             keepClosingSlash: true,
+      //             minifyJS: true,
+      //             minifyCSS: true,
+      //             minifyURLs: true,
+      //           },
+      //         }
+      //       : undefined
+      //   )
+      // ),
+      ...entryConfig.plugins,
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
       isEnvProduction &&
-        shouldInlineRuntimeChunk &&
-        new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
+      shouldInlineRuntimeChunk &&
+      new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
@@ -619,21 +691,21 @@ module.exports = function (webpackEnv) {
       // Experimental hot reloading for React .
       // https://github.com/facebook/react/tree/main/packages/react-refresh
       isEnvDevelopment &&
-        shouldUseReactRefresh &&
-        new ReactRefreshWebpackPlugin({
-          overlay: false,
-        }),
+      shouldUseReactRefresh &&
+      new ReactRefreshWebpackPlugin({
+        overlay: false,
+      }),
       // Watcher doesn't work well if you mistype casing in a path so we use
       // a plugin that prints an error when you attempt to do this.
       // See https://github.com/facebook/create-react-app/issues/240
       isEnvDevelopment && new CaseSensitivePathsPlugin(),
       isEnvProduction &&
-        new MiniCssExtractPlugin({
-          // Options similar to the same options in webpackOptions.output
-          // both options are optional
-          filename: `${BUILD_PROJECT}/static/css/[name].[contenthash:8].css`,
-          chunkFilename: `${BUILD_PROJECT}/static/css/[name].[contenthash:8].chunk.css`,
-        }),
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: `${BUILD_PROJECT}/static/css/[name].[contenthash:8].css`,
+        chunkFilename: `${BUILD_PROJECT}/static/css/[name].[contenthash:8].chunk.css`,
+      }),
       // Generate an asset manifest file with the following content:
       // - "files" key: Mapping of all asset filenames to their corresponding
       //   output file so that tools can pick it up without having to parse
@@ -669,7 +741,7 @@ module.exports = function (webpackEnv) {
       }),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the webpack build.
-        //wpa需要
+      //wpa需要
       // isEnvProduction &&
       //   fs.existsSync(swSrc) &&
       //   new WorkboxWebpackPlugin.InjectManifest({
@@ -683,77 +755,77 @@ module.exports = function (webpackEnv) {
       //   }),
       // TypeScript type checking
       useTypeScript &&
-        new ForkTsCheckerWebpackPlugin({
-          async: isEnvDevelopment,
-          typescript: {
-            typescriptPath: resolve.sync('typescript', {
-              basedir: paths.appNodeModules,
-            }),
-            configOverwrite: {
-              compilerOptions: {
-                sourceMap: isEnvProduction
+      new ForkTsCheckerWebpackPlugin({
+        async: isEnvDevelopment,
+        typescript: {
+          typescriptPath: resolve.sync('typescript', {
+            basedir: paths.appNodeModules,
+          }),
+          configOverwrite: {
+            compilerOptions: {
+              sourceMap: isEnvProduction
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
-                skipLibCheck: true,
-                inlineSourceMap: false,
-                declarationMap: false,
-                noEmit: true,
-                incremental: true,
-                tsBuildInfoFile: paths.appTsBuildInfoFile,
-              },
+              skipLibCheck: true,
+              inlineSourceMap: false,
+              declarationMap: false,
+              noEmit: true,
+              incremental: true,
+              tsBuildInfoFile: paths.appTsBuildInfoFile,
             },
-            context: paths.appPath,
-            diagnosticOptions: {
-              syntactic: true,
-            },
-            mode: 'write-references',
-            // profile: true,
           },
-          issue: {
-            // This one is specifically to match during CI tests,
-            // as micromatch doesn't match
-            // '../cra-template-typescript/template/src/App.tsx'
-            // otherwise.
-            include: [
-              { file: '../**/src/**/*.{ts,tsx}' },
-              { file: '**/src/**/*.{ts,tsx}' },
-            ],
-            exclude: [
-              { file: '**/src/**/__tests__/**' },
-              { file: '**/src/**/?(*.){spec|test}.*' },
-              { file: '**/src/setupProxy.*' },
-              { file: '**/src/setupTests.*' },
-            ],
+          context: paths.appPath,
+          diagnosticOptions: {
+            syntactic: true,
           },
-          logger: {
-            infrastructure: 'silent',
-          },
-        }),
+          mode: 'write-references',
+          // profile: true,
+        },
+        issue: {
+          // This one is specifically to match during CI tests,
+          // as micromatch doesn't match
+          // '../cra-template-typescript/template/src/App.tsx'
+          // otherwise.
+          include: [
+            {file: '../**/src/**/*.{ts,tsx}'},
+            {file: '**/src/**/*.{ts,tsx}'},
+          ],
+          exclude: [
+            {file: '**/src/**/__tests__/**'},
+            {file: '**/src/**/?(*.){spec|test}.*'},
+            {file: '**/src/setupProxy.*'},
+            {file: '**/src/setupTests.*'},
+          ],
+        },
+        logger: {
+          infrastructure: 'silent',
+        },
+      }),
       !disableESLintPlugin &&
-        new ESLintPlugin({
-          // Plugin options
-          extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
-          formatter: require.resolve('react-dev-utils/eslintFormatter'),
-          eslintPath: require.resolve('eslint'),
-          failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
-          context: paths.appSrc,
-          cache: true,
-          cacheLocation: path.resolve(
+      new ESLintPlugin({
+        // Plugin options
+        extensions: ['js', 'mjs', 'jsx', 'ts', 'tsx'],
+        formatter: require.resolve('react-dev-utils/eslintFormatter'),
+        eslintPath: require.resolve('eslint'),
+        failOnError: !(isEnvDevelopment && emitErrorsAsWarnings),
+        context: paths.appSrc,
+        cache: true,
+        cacheLocation: path.resolve(
             paths.appNodeModules,
             '.cache/.eslintcache'
-          ),
-          // ESLint class options
-          cwd: paths.appPath,
-          resolvePluginsRelativeTo: __dirname,
-          baseConfig: {
-            extends: [require.resolve('eslint-config-react-app/base')],
-            rules: {
-              ...(!hasJsxRuntime && {
-                'react/react-in-jsx-scope': 'error',
-              }),
-            },
+        ),
+        // ESLint class options
+        cwd: paths.appPath,
+        resolvePluginsRelativeTo: __dirname,
+        baseConfig: {
+          extends: [require.resolve('eslint-config-react-app/base')],
+          rules: {
+            ...(!hasJsxRuntime && {
+              'react/react-in-jsx-scope': 'error',
+            }),
           },
-        }),
+        },
+      }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter

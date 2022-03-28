@@ -9,7 +9,10 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
+//指定打包文件
 const BUILD_PROJECT = process.env.BUILD_PROJECT;
+//所有包列表
+const allPackageList = fs.readdirSync(resolveApp('src/pages'));
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
@@ -24,6 +27,7 @@ const publicUrlOrPath = getPublicUrlOrPath(
 );
 
 const buildPath = process.env.BUILD_PATH || 'build';
+const projectPath = resolveApp(`src/pages/${BUILD_PROJECT}`);
 
 const moduleFileExtensions = [
   'web.mjs',
@@ -59,7 +63,7 @@ module.exports = {
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, `src/pages/${BUILD_PROJECT}/index`),
+  appIndexJs: resolveModule(resolveApp, `${projectPath}/index`),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -72,6 +76,7 @@ module.exports = {
   appTsBuildInfoFile: resolveApp('node_modules/.cache/tsconfig.tsbuildinfo'),
   swSrc: resolveModule(resolveApp, 'src/service-worker'),
   publicUrlOrPath,
+  allPackageList
 };
 
 

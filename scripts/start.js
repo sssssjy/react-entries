@@ -15,6 +15,7 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 const fs = require('fs');
+const glob = require("glob")
 const chalk = require('react-dev-utils/chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
@@ -38,8 +39,17 @@ const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
 
+// const getEntryList = () => {
+//   const list = glob.sync('src/pages/**/index.tsx')
+//   console.log(list)
+// };
+//
+// getEntryList();
+// return
+// const entryFileList = Object.keys()
+const list = glob.sync('src/pages/**/index.tsx');
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appHtml, ...list])) {
   process.exit(1);
 }
 

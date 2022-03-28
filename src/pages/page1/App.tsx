@@ -1,18 +1,17 @@
-import React from "react";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-} from "react-router-dom";
+import * as React from "react";
+import { HashRouter } from "react-router-dom";
+import {Route, Routes} from "react-router";
 import Home from './views/home'
 import Product from './views/product'
+
 const App = () => {
-    return <BrowserRouter>
+    return <HashRouter>
         <Routes>
-            <Route path="/page1/home" element={<Home />} />
-            <Route path="/page1/product" element={<Product />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/product" element={<Product />} />
         </Routes>
-    </BrowserRouter>
+    </HashRouter>
 }
 
 export default App
