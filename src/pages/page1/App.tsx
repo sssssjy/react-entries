@@ -3,6 +3,7 @@ import { HashRouter } from "react-router-dom";
 import {Route, Routes} from "react-router";
 import Home from './views/home'
 import Product from './views/product'
+import SubMenu from './views/subMenu'
 import Nprogress from '@/components/Nprogress'
 
 //React.lazy + Suspense Nprogress 实现 加载进度条
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/" element={<Home1 />} />
                 <Route path="/home" element={<Home1 />} />
                 <Route path="/product" element={<Product1 />} />
+                <Route path="/subMenu" element={<SubMenu />} />
             </Routes>
         </React.Suspense>
 
