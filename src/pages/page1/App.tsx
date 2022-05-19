@@ -5,6 +5,8 @@ import Home from './views/home'
 import Product from './views/product'
 import SubMenu from './views/subMenu'
 import Nprogress from '@/components/Nprogress'
+import '@/common/hooks/test'
+// import '@/common/hooks/hooks'
 
 //React.lazy + Suspense Nprogress 实现 加载进度条
 const Home1 = React.lazy(() => import('./views/home'));

@@ -39,6 +39,7 @@ function Count() {
     }
 }
 
+// @ts-ignore
 let App = MyReact.render(Count); // value 0 effect run
 App.click();
 App = MyReact.render(Count); // value 1 effect run

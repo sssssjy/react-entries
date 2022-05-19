@@ -1,0 +1,30 @@
+.subMenuCon{
+  background-color: #f3f3f3;
+  :global{
+    .subMenu{
+      background-color: #abcdef;
+      .text{
+        font-size: 18px;
+        text-decoration: line-through;
+      }
+    }
+  }
+  .subMenuBottom{
+    border: 1px solid #999;
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    .text{
+      font-size: 20px;
+      font-weight: bolder;
+    }
+  }
+
+  .subMenu{
+    background-color: cornflowerblue;
+    .text{
+      font-size: 12px;
+      text-decoration: underline;
+    }
+  }
+}
