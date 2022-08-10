@@ -198,6 +198,7 @@ module.exports = function (webpackEnv) {
     if (isEnvDevelopment) {
       const buildList = !argv.length ? paths.allPackageList : argv;
       buildList.forEach(packageName => {
+        if(packageName === '.DS_Store') return;
         entry[packageName] = path.resolve(__dirname,`../src/pages/${packageName}/index`);
         const plugin = new HtmlWebpackPlugin(
             Object.assign(
@@ -287,6 +288,7 @@ module.exports = function (webpackEnv) {
         ? `${BUILD_PROJECT}/static/js/[name].[contenthash:8].chunk.js`
         : isEnvDevelopment && 'static/js/[name].chunk.js',
       assetModuleFilename: isEnvProduction
+          // ? `[name].[hash][ext]`
           ? `${BUILD_PROJECT}/static/media/[name].[hash][ext]`
           : isEnvDevelopment && 'static/media/[name].[hash][ext]',
       // assetModuleFilename: `${BUILD_PROJECT}/static/media/[name].[hash][ext]`,
@@ -446,6 +448,9 @@ module.exports = function (webpackEnv) {
             {
               test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
               type: 'asset',
+              generator: {
+                publicPath: '../../../',
+              },
               parser: {
                 dataUrlCondition: {
                   maxSize: imageInlineSizeLimit,
@@ -550,6 +555,7 @@ module.exports = function (webpackEnv) {
               exclude: cssModuleRegex,
               use: getStyleLoaders({
                 importLoaders: 1,
+                esModule:false,
                 sourceMap: isEnvProduction
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
@@ -609,6 +615,7 @@ module.exports = function (webpackEnv) {
               use: getStyleLoaders(
                 {
                   importLoaders: 3,
+                  esModule:false,
                   sourceMap: isEnvProduction
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
@@ -619,6 +626,14 @@ module.exports = function (webpackEnv) {
                 },
                 'sass-loader'
               ),
+            },
+            {
+              test: /\.md$/,
+              use: [
+                {
+                  loader: "raw-loader",
+                }
+              ],
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.

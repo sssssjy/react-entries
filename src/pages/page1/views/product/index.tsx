@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import './index.scss'
-import {} from 'react-router-dom'
+// import {} from 'react-router-dom'
 
-import '@/common/useStateModule'
+// import '@/common/useStateModule'
 
 const Page1 = () => {
     const [id, setId] = useState(0);

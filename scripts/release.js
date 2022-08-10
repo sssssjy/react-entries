@@ -8,7 +8,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 //需要打包的列表
 const buildPackageList = process.argv.slice(2);
 //所有包列表
-const allPackageList = fs.readdirSync(resolveApp('src/pages'));
+const allPackageList = fs.readdirSync(resolveApp('src/pages')).filter(packageName => packageName !== '.DS_Store');
 
 //判定存在
 buildPackageList.forEach(item => {
