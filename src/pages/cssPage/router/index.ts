@@ -45,6 +45,18 @@ const routes = [{
     },{
         name: 'css mask',
         path: '/cssHome/mask'
+    },{
+        name: 'css mixblendmode',
+        path: '/cssHome/mixblendmode'
+    },{
+        name: 'css border',
+        path: '/cssHome/border'
+    },{
+        name: 'css cssProperty',
+        path: '/cssHome/cssProperty'
+    },{
+        name: 'css button',
+        path: '/cssHome/button'
     }]
 },{
     name: 'markdown test',
