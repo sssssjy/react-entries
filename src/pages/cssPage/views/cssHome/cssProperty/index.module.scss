@@ -1,0 +1,204 @@
+@property --color1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #a5d6ff;
+}
+
+@property --color2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --ani-back-color1{
+  syntax: '<color>';
+  inherits: false;
+  initial-value: yellow;
+}
+@property --ani-back-color2{
+  syntax: '<color>';
+  inherits: false;
+  initial-value: darkgrey;
+}
+@property --ani-back-color3{
+  syntax: '<color>';
+  inherits: false;
+  initial-value: lightblue;
+}
+
+@property --deg {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 25%;
+}
+
+@property --dis {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: -1px;
+}
+
+@property --per{
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 20%;
+}
+
+.cssProperty {
+  :global{
+    .con{
+      width: 100px;
+      height: 100px;
+      margin-top: 100px;
+      background-image: linear-gradient(45deg, var(--color1), var(--color2));
+      transition: --color1 1s, --color2 2s;
+
+      &:hover{
+        --color1: yellowgreen;
+        --color2: deeppink;
+      }
+    }
+    
+    @keyframes back-color-move {
+      20% {
+        --ani-back-color1: red;
+        --ani-back-color2: #a93ee0;
+        --ani-back-color3: fuchsia;
+      }
+      40% {
+        --ani-back-color1: #ff3c41;
+        --ani-back-color2: #e228a0;
+        --ani-back-color3: #2e4c96;
+      }
+      60% {
+        --ani-back-color1: orange;
+        --ani-back-color2: green;
+        --ani-back-color3: teal;
+      }
+      80% {
+        --ani-back-color1: #ae63e4;
+        --ani-back-color2: #0ebeff;
+        --ani-back-color3: #efc371;
+      }
+    }
+    .back-ani :local{
+      width: 100px;
+      height: 100px;
+      margin-top: 100px;
+      background-image: linear-gradient(45deg, var(--ani-back-color1), var(--ani-back-color2), var(--ani-back-color3));
+      animation: back-color-move 10s linear infinite;
+    }
+
+    .conic-gradient-ani{
+      width: 200px;
+      height: 200px;
+      margin-top: 100px;
+      border-radius: 50%;
+      background-image: conic-gradient(yellowgreen, yellowgreen var(--deg), transparent var(--deg), transparent);
+      transition: --deg ease-in-out 200ms;
+      &:hover{
+        --deg: 60%
+      }
+    }
+
+    .text{
+      font-size: 24px;
+      text-decoration: underline;
+      color: #ffa657;
+      text-underline-offset: var(--dis);
+      transition: all ease 300ms, --dis ease 300ms;
+      &:hover{
+        --dis: 6px;
+        color: #ff9800;
+      }
+    }
+
+    .border-loading{
+      width: 200px;
+      height: 200px;
+      margin-top: 100px;
+      position: relative;
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      &::before, &::after{
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        border: 2px solid transparent;
+      }
+      &::after :local{
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        border-right-color: #333;
+        border-bottom-color: #333;
+        animation: rotate 3s infinite ease-out;
+      }
+      &::before :local{
+        top: -2px;
+        left: -2px;
+        bottom: -2px;
+        right: -2px;
+        border-width: 7px;
+        border-left-color: #fff;
+        border-top-color: #fff;
+        z-index: 2;
+        animation: rotate 4s infinite ease-in-out;
+      }
+    }
+
+    @keyframes property-loading-ani {
+      50% {
+        transform: rotate(270deg);
+        --per: 98%;
+      }
+      100% {
+        transform: rotate(720deg);
+      }
+    }
+    @keyframes property-loading-ani-out {
+      100% {
+        transform: rotate(360deg);
+        filter: hue-rotate(360deg);
+      }
+    }
+    .property-loading{
+      width: 200px;
+      height: 200px;
+      margin: 100px 0;
+      position: relative;
+      border-radius: 50%;
+      & :local{
+        animation: property-loading-ani-out 11s infinite ease-in-out;
+      }
+      &::before :local{
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 50%;
+        background-image: conic-gradient(transparent, transparent var(--per), #fa7 var(--per), #fa7);
+        mask: radial-gradient(transparent, transparent 66%, #000 66%, #000);
+        animation: property-loading-ani 3s infinite cubic-bezier(0.57, 0.29, 0.49, 0.76);
+      }
+    }
+
+    .menu{
+      background-color: #f3f3f3;
+      padding: 10px 40px;
+      clip-path: circle(20px at 40px 40px);
+      transition: clip-path .3s linear;
+      overflow: hidden;
+      width: 200px;
+      &:hover{
+        clip-path: circle(460px at 44px 44px);
+      }
+    }
+  }
+}

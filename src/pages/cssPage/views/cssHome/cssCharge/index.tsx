@@ -8,25 +8,8 @@ export default () => {
             </div>
         </div>
         <div style={{height:'10px'}} />
-        <div className={styles.chargeAni}>
-            <div className="container">
-                <div className="num">98.41%</div>
-                <div className="contrast">
-                    <div className="circle" />
-                    <ul className="bubble">
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                        <li />
-                    </ul>
-                </div>
-            </div>
+        <div className={styles.textWave}>
+            TEXT WAVE
         </div>
     </div>
 }

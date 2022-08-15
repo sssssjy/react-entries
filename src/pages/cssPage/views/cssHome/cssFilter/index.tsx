@@ -36,5 +36,13 @@ export default () => {
         <div className="g-container-1">
             <div className="g-inner-1" />
         </div>
+
+        <h3>filter blur + contrast 实现文字动画</h3>
+        <div className="word-change">
+            <div className="word">iPhone</div>
+            <div className="word">13</div>
+            <div className="word">Pro</div>
+            <div className="word">强得很！</div>
+        </div>
     </div>
 }
