@@ -1,0 +1,19 @@
+.svg{
+  :global{
+    .blur-con{
+      display: flex;
+      justify-content: space-around;
+      .css-filter, .svg-filter{
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+        &.css-filter{
+          filter: blur(5px);
+        }
+        &.svg-filter{
+          filter: url(#blur);
+        }
+      }
+    }
+  }
+}

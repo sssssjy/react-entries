@@ -57,6 +57,27 @@ const routes = [{
     },{
         name: 'css button',
         path: '/cssHome/button'
+    },{
+        name: 'css css3D',
+        path: '/cssHome/css3D'
+    },{
+        name: 'css cssProgress',
+        path: '/cssHome/cssProgress'
+    },{
+        name: 'css backUnderline',
+        path: '/cssHome/backUnderline'
+    },{
+        name: 'css cssEffects',
+        path: '/cssHome/cssEffects'
+    },{
+        name: 'css oneDiv',
+        path: '/cssHome/oneDiv'
+    },{
+        name: 'css svg',
+        path: '/cssHome/svg'
+    },{
+        name: 'css switch',
+        path: '/cssHome/switch'
     }]
 },{
     name: 'markdown test',

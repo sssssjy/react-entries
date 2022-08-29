@@ -1,0 +1,103 @@
+@property --line{
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 30%;
+}
+
+@property --circle{
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 30%;
+}
+
+@property --per {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 6%;
+}
+
+@keyframes line-progress {
+  from {
+    --line: 30%
+  }
+  to {
+    --line: 93%
+  }
+}
+
+@keyframes circle-progress {
+  from {
+    --circle: 30%
+  }
+  to {
+    --circle: 78%
+  }
+}
+
+@keyframes progress-3d {
+  from {
+    --per: 6%;
+    filter: hue-rotate(0);
+  }
+  to {
+    --per: 78%;
+    filter: hue-rotate(360deg);
+  }
+}
+
+.cssProgress{
+  :global{
+    .line-progress:local{
+      width: 300px;
+      height: 20px;
+      border-radius: 25px;
+      border: 1px solid #f3f3f3;
+      background-image: linear-gradient(90deg, #0f0, #0ff var(--line), transparent var(--line), transparent);
+      animation: line-progress alternate infinite 2s ease-in-out;
+    }
+
+    .circle-progress{
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      margin-top: 100px;
+      background-image: conic-gradient(#FFCDB2 0, #FFCDB2 var(--circle), #B5838D var(--circle), #B5838D);
+      mask: radial-gradient(circle at 50% 50%, transparent, transparent 60%, #000 60%, #000);
+      position: relative;
+      &:local{
+        animation: circle-progress alternate infinite 4s ease-in-out;
+      }
+    }
+
+    .progress-3d{
+      transform-style: preserve-3d;
+      perspective: 500px;
+      position: relative;
+      margin: 100px 0;
+      transform: rotateX(-20deg);
+      height: 100px;
+      div{
+        width: 500px;
+        height: 100px;
+        position: absolute;
+        transform-origin: center center;
+        background-image: linear-gradient(90deg, rgba(255, 217, 34, .6), rgba(255, 34, 109, .8) var(--per), rgba(255, 34, 109, .1) var(--per), rgba(255, 34, 109, .1));
+        &.top{
+          transform: translateY(-50px) rotateX(90deg);
+        }
+        &.bottom{
+          transform: translateY(50px) rotateX(90deg);
+        }
+        &.front{
+          transform: translateZ(50px);
+        }
+        &.back{
+          transform: translateZ(-50px);
+        }
+        &:local{
+          animation: progress-3d ease alternate infinite 4s;
+        }
+      }
+    }
+  }
+}
