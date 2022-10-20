@@ -11,9 +11,32 @@ const CssHome = () => {
     useEffect(() => {
         const cssMenu = routes.find(item => item.path === '/cssHome') || [] as any;
         setMenuList(cssMenu.children || []);
+
+        Object.prototype[Symbol.iterator] = function () {
+            const keys = Object.keys(this);
+            const values = this;
+            let i = 0;
+            let length = keys.length;
+            return {
+                next: function (props) {
+                    if (i < length ) {
+                        return {
+                            value: values[keys[i]],
+                            done: false
+                        }
+                    } else {
+                         return {
+                            value: '',
+                            done: true
+                        }
+                    }
+                }
+            }
+        }
+        // @ts-ignore
+        const [a,b] = {a:1,b:1}
+        console.log('a', a, 'b', b);
     }, []);
-
-
     return <Grid container spacing={2}>
         <Grid item xs={4}>
             <Paper>

@@ -1,0 +1,32 @@
+.drag{
+  :global{
+    .con{
+      position: relative;
+      &:active{
+        .flag{
+          opacity: 1;
+        }
+      }
+      .flag{
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 1px dotted #333;
+        opacity: 0;
+        transition: 0.5s 0s;
+        &:hover +.drag-box{
+          transform: translate(0, 0);
+          transition: 0s;
+        }
+      }
+      .drag-box{
+        width: 100px;
+        height: 100px;
+        background-color: #abcdef;
+
+        transform: translate(150px, 150px);
+        transition: 99999s 99999s;
+      }
+    }
+  }
+}

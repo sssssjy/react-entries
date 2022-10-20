@@ -73,11 +73,23 @@ const routes = [{
         name: 'css oneDiv',
         path: '/cssHome/oneDiv'
     },{
-        name: 'css svg',
-        path: '/cssHome/svg'
+        name: 'css svgFilter',
+        path: '/cssHome/svgFilter'
     },{
         name: 'css switch',
         path: '/cssHome/switch'
+    },{
+        name: 'css cursor',
+        path: '/cssHome/cursor'
+    },{
+        name: 'css drag',
+        path: '/cssHome/drag'
+    },{
+        name: 'css like',
+        path: '/cssHome/like'
+    },{
+        name: 'css svgBase',
+        path: '/cssHome/svgBase'
     }]
 },{
     name: 'markdown test',

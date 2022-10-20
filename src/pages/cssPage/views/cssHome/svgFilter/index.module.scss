@@ -1,0 +1,150 @@
+.svg{
+  :global{
+    .blur-con{
+      display: flex;
+      justify-content: space-around;
+      .css-filter, .svg-filter{
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+        &.css-filter{
+          filter: blur(5px);
+        }
+        &.svg-filter{
+          filter: url(#blur);
+        }
+      }
+    }
+    .lighten{
+      width: 100px;
+      height: 250px;
+      filter: url(#lighten);
+    }
+
+    .text{
+      font-size: 20px;
+      .dilate{
+        filter: url(#dilate-filter)
+      }
+      .erode{
+        filter: url(#erode-filter)
+      }
+    }
+
+    .fractalNoise, .turbulence{
+      width: 100px;
+      height: 100px;
+      &.turbulence{
+        filter: url(#turbulence);
+      }
+      &.fractalNoise{
+        filter: url(#fractalNoise);
+      }
+    }
+    .turbulence-text{
+      font-size: 40px;
+      font-weight: bold;
+      filter: url(#turbulence-text);
+    }
+    .paper{
+      width: 200px;
+      height: 100px;
+      filter: url(#paper)
+    }
+
+    .button-con{
+      margin-top: 100px;
+      display: flex;
+      .button{
+        width: 200px;
+        height: 64px;
+        outline: 200px solid transparent;
+        background-color: #3F51B5;
+        color: #fff;
+        border-radius: 5px;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:hover{
+          filter: url(#button-1);
+        }
+        &:last-of-type:hover{
+          filter: url(#button-2)
+        }
+      }
+    }
+
+    .border{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      .box{
+        width: 100px;
+        height: 40px;
+        filter: url(#border-svg);
+        &.type1{
+          background: radial-gradient(circle at 0 0, transparent 0, transparent 5px,#f2cc60 5px, #f2cc60) no-repeat,
+          radial-gradient(circle at 100% 0, transparent 0, transparent 5px,#f2cc60 5px, #f2cc60) top right no-repeat,
+          radial-gradient(circle at 0 100%, transparent 0, transparent 5px,#f2cc60 5px, #f2cc60) bottom left no-repeat,
+          radial-gradient(circle at 100% 100%, transparent 0, transparent 5px,#f2cc60 5px, #f2cc60) bottom right no-repeat;
+          background-size: 50% 50%;
+        }
+        &.type2{
+          background: linear-gradient(135deg,transparent 0, transparent 10px, #f2cc60 10px, #f2cc60) no-repeat,
+          linear-gradient(-45deg,transparent 0, transparent 10px, #f2cc60 10px, #f2cc60) bottom right no-repeat,
+          linear-gradient(-135deg,transparent 0, transparent 10px, #f2cc60 10px, #f2cc60) top right no-repeat,
+          linear-gradient(45deg,transparent 0, transparent 10px, #f2cc60 10px, #f2cc60) bottom left no-repeat;
+          background-size: 50% 50%;
+        }
+        &.type3{
+          background: linear-gradient(-135deg, transparent 0, transparent 20px, #f2cc60 20px, #f2cc60) no-repeat,
+          linear-gradient(-45deg, transparent 0, transparent 20px, #f2cc60 20px, #f2cc60) right bottom no-repeat;
+          background-size: 100% 50%;
+        }
+        &.type4 {
+          background: linear-gradient(-135deg, transparent 0, transparent 20px, #f2cc60 20px, #f2cc60 70px, transparent 70px, transparent) no-repeat,
+          linear-gradient(-45deg, transparent 0, transparent 20px, #f2cc60 20px, #f2cc60 70px, transparent 70px, transparent) right bottom no-repeat;
+          background-size: 100% 50%;
+        }
+        &.type5{
+          background: linear-gradient(#f2cc60, #f2cc60) no-repeat 10px top,
+          radial-gradient(circle at 0 5px, transparent 0, transparent 5px, #f2cc60 5px, #f2cc60) top left repeat-y,
+          radial-gradient(circle at 100% 5px, transparent 0, transparent 5px, #f2cc60 5px, #f2cc60) top right repeat-y;
+          background-size: calc(100% - 20px) 100%, 10px 15px, 10px 15px;
+        }
+      }
+    }
+
+    .back-img{
+      width: 100px;
+      height: 250px;
+      background-image: url("../../../images/back2.jpg");
+      background-size: contain;
+      filter: url(#img-svg);
+    }
+    .ani-back-img{
+      background-image: url("../../../images/person.jpeg");
+      width: 200px;
+      height: 200px;
+      background-size: 100% 100%;
+      filter:url(#ani-back-img);
+    }
+
+    .click-btn{
+      color: #3F51B5;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 5px;
+      border: 1px solid;
+      display: inline-block;
+      cursor: pointer;
+      filter: url(#click-btn);
+    }
+
+    .pixelate-img{
+      filter: url(#pixelate)
+    }
+  }
+}

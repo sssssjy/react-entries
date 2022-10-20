@@ -1,0 +1,51 @@
+$expression: "😀", "🤣", "❤️", "😻", "👏", "🤘", "🤡", "🤩", "👍🏼", "🐮", "🎈", "💕", "💓", "💚";
+.like{
+  padding-top:300px;
+  :global{
+    ul{
+      position: relative;
+      width: 50px;
+      height: 50px;
+      list-style: none;
+      @keyframes move {
+        100%{
+          transform: rotate(0) translateY(-200px);
+        }
+      }
+      &::before{
+        content: "👍🏼";
+        position: absolute;
+        z-index: -1;
+        top: 20px;
+        left: 0;
+        font-size: 40px;
+      }
+      @for $i from 1 to 51 {
+        li:nth-of-type(#{$i}){
+          list-style: none;
+          position: absolute;
+          top: 0;
+          left: 0;
+          user-select: none;
+          width: 50px;
+          height: 50px;
+          cursor: pointer;
+          opacity: 0;
+          transition: 1.5s opacity 0.8s;
+          z-index: 1;
+          &:active{
+            opacity: 1;
+            transition:0.1s opacity;
+          }
+          &:before:local{
+            content: nth($expression, random(length($expression)));
+            position: absolute;
+            font-size: 50px;
+            transform: rotate(#{random(80)- 40}deg);
+            animation: move cubic-bezier(.46,.53,.51,.62) #{random(1500) + 1500}ms infinite #{random(3000) + 1000}ms;
+          }
+        }
+      }
+    }
+  }
+}

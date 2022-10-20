@@ -22,5 +22,18 @@ export default () => {
         <div className="line-text-shadow-con">
             <div className="line-text-shadow">LINE TEXT SHADOW</div>
         </div>
+
+        <h4>单侧阴影</h4>
+        <div className="single-box-shadow">
+            <div className="box1" />
+            <div className="box2" />
+            <div className="box3" />
+            <div className="box4" />
+        </div>
+
+        <h4>box-shadow 背景动画</h4>
+        <div className="box-shadow-bg-con">
+            <div className="box-shadow-bg" />
+        </div>
     </div>
 }
