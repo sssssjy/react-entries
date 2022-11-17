@@ -90,6 +90,9 @@ const routes = [{
     },{
         name: 'css svgBase',
         path: '/cssHome/svgBase'
+    },{
+        name: 'css resize',
+        path: '/cssHome/resize'
     }]
 },{
     name: 'markdown test',
