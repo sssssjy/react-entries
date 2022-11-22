@@ -1,0 +1,128 @@
+@property --percent1 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --percent2 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --percent3 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --percent4 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --percent5 {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 1;
+}
+
+$count: 400;
+$sqrt: 20;
+$per: 100% / $sqrt;
+$width: 300px;
+$perWid: 15;
+
+
+@for $i from 1 to ($count + 1) {
+  @property --m-#{$i} {
+    syntax: '<number>';
+    initial-value: 1;
+    inherits: false;
+  }
+}
+
+@function bgSet($n) {
+  $bg: radial-gradient(rgba(0, 0, 0, var(--m-1)), rgba(0, 0, 0, var(--m-1)));
+
+  @for $i from 2 through $n {
+    $bg: $bg, radial-gradient(rgba(0, 0, 0, var(--m-#{$i})), rgba(0, 0, 0, var(--m-#{$i})));
+  }
+
+  @return $bg;
+}
+
+@function positionSet($n) {
+  $bgPosition: ();
+  @for $i from 0 through ($n) {
+    @for $j from 0 through ($n - 1) {
+      $bgPosition: $bgPosition, #{$i * $perWid}px #{$j * $perWid}px;
+    }
+  }
+
+  @return $bgPosition
+}
+
+@function transitionSet($n) {
+  $transition: --m-1 100ms 100ms;
+  @for $i from 1 through $n {
+    $transition: $transition, --m-#{$i} #{random(500)}ms #{random(500)}ms;
+  }
+
+  @return $transition;
+}
+
+.propertyMask{
+  :global{
+    .image{
+      width: 300px;
+      height: 400px;
+      background-image: url("../../../images/img1.JPG");
+      background-size: cover;
+      margin-bottom: 10px;
+      &.img1{
+        transition: --percent1 0.5s ease-in-out;
+        mask: linear-gradient(rgba(255, 255, 255, var(--percent1)), rgba(255, 255, 255, var(--percent1)));
+        &:hover{
+          --percent1: 0;
+        }
+      }
+
+      &.img2{
+        transition: --percent2 0.5s ease-in-out,
+                    --percent3 0.5s ease-in-out 100ms,
+                    --percent4 0.5s ease-in-out 200ms,
+                    --percent5 0.5s ease-in-out 300ms;
+        mask: linear-gradient(rgba(255, 255, 255, var(--percent2)), rgba(255, 255, 255, var(--percent2))),
+        linear-gradient(rgba(255, 255, 255, var(--percent3)), rgba(255, 255, 255, var(--percent3))),
+        linear-gradient(rgba(255, 255, 255, var(--percent4)), rgba(255, 255, 255, var(--percent4))),
+        linear-gradient(rgba(255, 255, 255, var(--percent5)), rgba(255, 255, 255, var(--percent5)));
+        mask-repeat: no-repeat;
+        mask-size: 50% 50%;
+        mask-position: top left, top right, bottom left, bottom right;
+        &:hover{
+          --percent2: 0;
+          --percent3: 0;
+          --percent4: 0;
+          --percent5: 0;
+        }
+      }
+
+      &.img3{
+        width: $width;
+        height: $width;
+        mask: bgSet($count);
+        mask-size: $per $per;
+        mask-repeat: no-repeat;
+        mask-position: positionSet($sqrt);
+        transition: transitionSet($count);
+        &:hover{
+          @for $i from 1 through $count{
+            --m-#{$i}: 0
+          }
+        }
+      }
+    }
+  }
+}

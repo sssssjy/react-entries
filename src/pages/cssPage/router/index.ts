@@ -93,6 +93,9 @@ const routes = [{
     },{
         name: 'css resize',
         path: '/cssHome/resize'
+    },{
+        name: 'css property + mask',
+        path: '/cssHome/propertyMask'
     }]
 },{
     name: 'markdown test',
