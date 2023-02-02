@@ -96,6 +96,15 @@ const routes = [{
     },{
         name: 'css property + mask',
         path: '/cssHome/propertyMask'
+    },{
+        name: 'css canvas clock',
+        path: '/cssHome/canvasClock'
+    },{
+        name: 'css houdiniPaint',
+        path: '/cssHome/houdiniPaint'
+    },{
+        name: 'css water droplet',
+        path: '/cssHome/water'
     }]
 },{
     name: 'markdown test',

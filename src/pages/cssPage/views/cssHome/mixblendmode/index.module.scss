@@ -60,5 +60,26 @@
               linear-gradient(#fff, #000);
       mask-composite: exclude;
     }
+
+    .ikun{
+      height: 100px;
+      width: 150px;
+      background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg3.doubanio.com%2Fview%2Fgroup_topic%2Fraw%2Fpublic%2Fp106878681.jpg&refer=http%3A%2F%2Fimg3.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1671271180&t=13308088bbee45f06884269b6fea239b"), #0ff;
+      background-size: cover;
+      background-blend-mode: lighten;
+      position: relative;
+      &::after{
+        position: absolute;
+        content: '';
+        display: block;
+        width: 150px;
+        height: 100px;
+        background: url("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg3.doubanio.com%2Fview%2Fgroup_topic%2Fraw%2Fpublic%2Fp106878681.jpg&refer=http%3A%2F%2Fimg3.doubanio.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1671271180&t=13308088bbee45f06884269b6fea239b"), #f00;
+        background-size: cover;
+        background-blend-mode: lighten;
+        mix-blend-mode: darken;
+        left: 5px;
+      }
+    }
   }
 }

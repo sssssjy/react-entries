@@ -1,0 +1,19 @@
+.paint{
+  :global{
+    .div1{
+      --color1 : red
+    }
+    .div2{
+      --color1 : green
+    }
+    .div3{
+      --color1 : blue
+    }
+    div{
+      margin: auto;
+      width: 100px;
+      height: 100px;
+      background: paint(drawBg);
+    }
+  }
+}

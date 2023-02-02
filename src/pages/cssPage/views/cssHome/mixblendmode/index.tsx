@@ -28,5 +28,7 @@ export default () => {
         <div className="radio-mask" />
         <div className="square-mask" />
         <div className="cat" />
+
+        <div className="ikun" />
     </div>
 }

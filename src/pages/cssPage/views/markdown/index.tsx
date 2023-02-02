@@ -34,6 +34,7 @@ const MarkDown = () => {
     useEffect(() => {
         const menu = [] as any;
         const mdFiles = (require as any).context('./md/', true, /\.md$/);
+        console.log(mdFiles,'mdFiles')
         const filePaths = mdFiles.keys();
 
         filePaths.forEach(filePath => {
@@ -57,6 +58,7 @@ const MarkDown = () => {
                        list = temp.children;
                    }
                } else {
+                   console.log(mdFiles(filePath))
                    list.push({
                        name: path,
                        title: mdConfig[path] || path,

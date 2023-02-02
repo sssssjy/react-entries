@@ -10,6 +10,7 @@ const Page1 = () => {
         home1
         <Link to={'/product'}>product link</Link>
         <Link to={'/subMenu'}>subMenu link</Link>
+        <Link to={'/tinyMce'}>tinyMce link</Link>
     </div>
 }
 
