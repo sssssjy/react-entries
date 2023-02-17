@@ -4,3 +4,7 @@ declare module '*.scss' {
 }
 
 declare const registerPaint: any
+
+interface Window {
+    bpmn: any
+}
