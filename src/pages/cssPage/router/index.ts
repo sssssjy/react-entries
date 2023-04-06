@@ -105,6 +105,9 @@ const routes = [{
     },{
         name: 'css water droplet',
         path: '/cssHome/water'
+    },{
+        name: 'css conic gradient',
+        path: '/cssHome/conicGradient'
     }]
 },{
     name: 'markdown test',
