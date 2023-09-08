@@ -1,0 +1,90 @@
+$ballSize: 10px;
+$containerSize: 150px;
+
+$n: 36; // 小球的数量
+$pdeg: 360deg / $n; // 小球的间隔角度
+
+$ani-duration: 2000ms; //动画时间
+
+.circleLoading{
+  width: $containerSize;
+  height: $containerSize;
+  margin: 50px auto;
+  position: relative;
+  border-radius: 50%;
+  :global{
+    @for $i from 1 through $n {
+      .dot:nth-of-type(#{$i}) {
+        transform:rotateZ(#{$pdeg * $i}) translateY($containerSize/2);
+        &::before,
+        &::after {
+          animation-delay: -$ani-duration / $n * 6 * $i;;
+        }
+      }
+    }
+    .dot {
+      width: $ballSize;
+      height: $ballSize;
+      top: 50%;
+      left: 50%;
+      margin-top: -$ballSize/2;
+      margin-left: -$ballSize/2;
+      position: absolute;
+      transform-style: preserve-3d;
+      perspective: 70px;
+      &::before, &::after{
+        content: '';
+        position: absolute;
+        width: $ballSize;
+        height: $ballSize;
+        border-radius: 50%;
+      }
+      &::after:local{
+        background-color: #2299dd;
+        top: -100%;
+        animation: move $ani-duration infinite;
+      }
+      &::before:local{
+        background-color: #cf222e;
+        top: 100%;
+        animation: moveAlternate $ani-duration infinite;
+      }
+    }
+  }
+}
+
+@keyframes move {
+  0%{
+    animation-timing-function: ease-in;
+  }
+  25%{
+    transform: translate3d(0, 100%, $ballSize);
+    animation-timing-function: ease-out;
+  }
+  50%{
+    transform: translate3d(0, 200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75%{
+    transform: translate3d(0, 100%, -$ballSize);
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes moveAlternate {
+  0%{
+    animation-timing-function: ease-in;
+  }
+  25%{
+    transform: translate3d(0, -100%, $ballSize);
+    animation-timing-function: ease-out;
+  }
+  50%{
+    transform: translate3d(0, -200%, 0);
+    animation-timing-function: ease-in;
+  }
+  75%{
+    transform: translate3d(0, -100%, -$ballSize);
+    animation-timing-function: ease-out;
+  }
+}

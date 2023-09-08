@@ -108,6 +108,12 @@ const routes = [{
     },{
         name: 'css conic gradient',
         path: '/cssHome/conicGradient'
+    },{
+        name: 'css animation composition',
+        path: '/cssHome/aniComposition'
+    },{
+        name: 'css circle loading',
+        path: '/cssHome/circleLoading'
     }]
 },{
     name: 'markdown test',

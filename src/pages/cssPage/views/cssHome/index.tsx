@@ -32,7 +32,7 @@ const CssHome = () => {
     }, []);
 
     useEffect(() => {
-        console.log(location, menuList)
+        // console.log(location, menuList)
         if (!location.pathname || !menuList?.length) return;
         const findIndex = menuList.findIndex(item => item.path === location.pathname);
         setSelectedIndex(findIndex);

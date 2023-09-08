@@ -18,5 +18,10 @@ export default () => {
         <div className="mix"><div className="mix-inner" /></div>
 
         <div className="change-ani"><div className="inner-img" /></div>
+
+        {/*<h4>mask + backdrop-filter</h4>*/}
+        {/*<div className="mask-drop-con">*/}
+        {/*    <div className="glass" />*/}
+        {/*</div>*/}
     </div>
 }

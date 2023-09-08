@@ -1,0 +1,64 @@
+.ball{
+  width: 20px;
+  height: 20px;
+  background-color: #abcdef;
+  border-radius: 50%;
+  animation: ball-x 1s linear infinite alternate,
+  ball-y 1s cubic-bezier(.55, 0, .85, .36) infinite alternate;
+  animation-composition: add;
+}
+
+@keyframes ball-x {
+  100%{
+    transform: translateX(100px);
+  }
+}
+
+@keyframes ball-y {
+  100%{
+    transform: translateY(300px);
+  }
+}
+
+.dvdCon{
+  width: 320px;
+  height:220px;
+  border: 1px solid #aaa;
+  margin-top:300px;
+  :global{
+    .dvd:local{
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: #00ff95;
+      animation: dvd-xMove 2.6s linear infinite alternate,
+      dvd-yMove 1.9s linear infinite alternate,
+      colorX 26s infinite steps(10),
+      colorY 19s infinite steps(10);
+      animation-composition: add;
+    }
+  }
+}
+
+@keyframes dvd-xMove {
+  to{
+    transform: translateX(300px);
+  }
+}
+
+@keyframes dvd-yMove {
+  to{
+    transform: translateY(200px);
+  }
+}
+
+@keyframes colorX {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+@keyframes colorY {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
