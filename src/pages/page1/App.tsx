@@ -10,6 +10,7 @@ import '@/common/hooks/hooks'
 const Home1 = React.lazy(() => import('./views/home'));
 const Product1 = React.lazy(() => import('./views/product'));
 const Promise1 = React.lazy(() => import('./views/promise'));
+const DotCanvas = React.lazy(() => import('./views/dotCanvas'));
 
 const App = () => {
     return <HashRouter>
@@ -20,6 +21,7 @@ const App = () => {
                 <Route path="/product" element={<Product1 />} />
                 <Route path="/subMenu" element={<SubMenu />} />
                 <Route path="/promise" element={<Promise1 />} />
+                <Route path="/dotCanvas" element={<DotCanvas />} />
             </Routes>
         </React.Suspense>
 

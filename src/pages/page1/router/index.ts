@@ -9,9 +9,15 @@ export interface routeProps {
 
 export type routeItemProps = Pick<routeProps, 'name' | 'path' | 'elementPath'>
 
-const routes = [{
-    name: 'bpmn',
-    path: '/bpmn'
-}] as Array<routeItemProps>
+const routes = [
+  {
+    name: "bpmn",
+    path: "/bpmn",
+  },
+  {
+    name: "dotCanvas",
+    path: "/dotCanvas",
+  },
+] as Array<routeItemProps>;
 
 export default routes
