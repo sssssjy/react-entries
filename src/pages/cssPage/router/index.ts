@@ -114,6 +114,9 @@ const routes = [{
     },{
         name: 'css circle loading',
         path: '/cssHome/circleLoading'
+    },{
+        name: 'css sphere',
+        path: '/cssHome/sphere'
     }]
 },{
     name: 'markdown test',
